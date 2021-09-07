@@ -11,10 +11,8 @@ Usage:
 
 ```javascript
 
-const lrucache = new LRU({
-	hostname: "localhost",
-	port: 4001
-});
+// this contructor takes hostname and port as its arguments.
+const lrucache = new LRU('localhost', 4001);
 
 (async () => {
 	await lrucache.set("key1","key1_value");

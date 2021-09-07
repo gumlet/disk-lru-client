@@ -3,7 +3,7 @@ const LRU = require("../index");
 let lrucache;
 
 beforeAll(async function() {
-  lrucache = new LRU();
+  lrucache = new LRU('localhost', 4001);
 });
 
 describe('Client Test', () => {
