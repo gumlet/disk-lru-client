@@ -1,5 +1,5 @@
 {
-  "name": "disk-lru-client",
+  "name": "@gumlet/disk-lru-client",
   "version": "1.0.0",
   "description": "Nodejs client for disk LRU server",
   "main": "index.js",
