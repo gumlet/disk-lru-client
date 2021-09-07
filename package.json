@@ -1,0 +1,31 @@
+{
+  "name": "disk-lru-client",
+  "version": "1.0.0",
+  "description": "Nodejs client for disk LRU server",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gumlet/disk-lru-client.git"
+  },
+  "keywords": [
+    "lru",
+    "client",
+    "disk",
+    "lru"
+  ],
+  "author": "Aditya Patadia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gumlet/disk-lru-client/issues"
+  },
+  "homepage": "https://github.com/gumlet/disk-lru-client#readme",
+  "dependencies": {
+    "got": "^11.8.2"
+  },
+  "devDependencies": {
+    "jest": "^27.1.0"
+  }
+}
