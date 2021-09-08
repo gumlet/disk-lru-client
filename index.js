@@ -1,15 +1,9 @@
-const got = require("got"),
+const needle = require("needle"),
 	http = require("http"),
  	https = require("https");
 
-const agent = {
-  http: new http.Agent({
-    keepAlive: true
-  }),
-  https: new https.Agent({
-    keepAlive: true
-  })
-};
+http.globalAgent.keepAlive = true;
+https.globalAgent.keepAlive = true;
 
 class DiskLRUClient {
   constructor(hostname, port) {
@@ -19,16 +13,15 @@ class DiskLRUClient {
 
   async get(key) {
   	try {
-  		let resp = await got.get(`http://${this.hostname}:${this.port}/lrucache/${key}`, {
-		    http2: false,
-		    agent,
-		    dnsCache: false,
-		    responseType: 'buffer',
-		    retry: 0,
-		    timeout: 50000
+  		let resp = await needle('get',`http://${this.hostname}:${this.port}/lrucache/${key}`, {
+		    response_timeout: 30000,
+				read_timeout: 50000
   		});
-
-    	return resp.body;
+  		if(resp.statusCode >= 300) {
+  			return undefined;
+  		} else {
+    		return resp.body;
+  		}
   	} catch (err) {
   		return undefined;
   	}
@@ -36,15 +29,16 @@ class DiskLRUClient {
 
   async has(key) {
   	try {
-  		let resp = await got.head(`http://${this.hostname}:${this.port}/lrucache/${key}`, {
-		    http2: false,
-		    agent,
-		    dnsCache: false,
-		    responseType: 'buffer',
-		    retry: 0,
-		    timeout: 50000
+  		let resp = await needle('head',`http://${this.hostname}:${this.port}/lrucache/${key}`, {
+		    response_timeout: 30000,
+				read_timeout: 50000
   		});
-    	return true;
+
+  		if(resp.statusCode >= 300) {
+  			return false;
+  		} else {
+    		return true;
+  		}
   	} catch (err) {
   		return false;
   	}
@@ -52,18 +46,18 @@ class DiskLRUClient {
 
   async set(key, value) {
   	try {
-  		let resp = await got.put(`http://${this.hostname}:${this.port}/lrucache/${key}`, {
-		    http2: false,
-		    agent,
-		    dnsCache: false,
-		    responseType: 'buffer',
-		    retry: 0,
-		    body: value,
-		    timeout: 50000,
-		    headers: {
-		    	"content-type": "application/octet-stream"
-		    },
+  		let resp = await needle('put',`http://${this.hostname}:${this.port}/lrucache/${key}`,value, {
+		    response_timeout: 30000,
+				read_timeout: 50000,
+				headers: {
+					"content-type": "application/octet-stream"
+				}
   		});
+  		if(resp.statusCode >= 300) {
+  			return false;
+  		} else {
+    		return true;
+  		}
     	return true;
   	} catch (err) {
   		return false;
@@ -72,16 +66,15 @@ class DiskLRUClient {
 
   async delete(key) {
   	try {
-  		let resp = await got.delete(`http://${this.hostname}:${this.port}/lrucache/${key}`, {
-		    http2: false,
-		    agent,
-		    dnsCache: false,
-		    responseType: 'buffer',
-		    retry: 0,
-		    timeout: 50000
+  		let resp = await needle('delete',`http://${this.hostname}:${this.port}/lrucache/${key}`,null, {
+		    response_timeout: 30000,
+				read_timeout: 50000
   		});
-
-    	return true;
+  		if(resp.statusCode >= 300) {
+  			return false;
+  		} else {
+    		return true;
+  		}
   	} catch (err) {
   		return false;
   	}

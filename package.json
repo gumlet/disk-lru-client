@@ -1,6 +1,6 @@
 {
   "name": "@gumlet/disk-lru-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Nodejs client for disk LRU server",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/gumlet/disk-lru-client#readme",
   "dependencies": {
-    "got": "^11.8.2"
+    "needle": "^3.0.0"
   },
   "devDependencies": {
     "jest": "^27.1.0"
